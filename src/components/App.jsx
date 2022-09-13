@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import s from './App.module.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import Section from './section/Section';
 import { ContactForm } from './form/ContactForm ';
 import { Filter } from './list/List';
@@ -16,7 +16,17 @@ export class App extends Component {
     filter: '',
   };
 
+  availableContact = name => {
+    const { contacts } = this.state;
+    return contacts.find(
+      item => item.name.toLowerCase() === name.toLowerCase()
+    );
+  };
+
   addContact = newContact => {
+    if (this.availableContact(newContact.name)) {
+      return Notify.failure('This contact already exists');
+    }
     this.setState(prevState => ({
       contacts: [...prevState.contacts, { ...newContact, id: nanoid() }],
     }));
@@ -31,14 +41,15 @@ export class App extends Component {
 
   onFilter = value => {
     // console.log(value);
-    this.setState({ filter: value });
+    this.setState({ filter: value.trim() });
   };
 
   filteredContacts = () => {
     // console.log(this.state.contacts);
     const unfilteredContacts = this.state.contacts;
+    const normalizedFilter = this.state.filter.toLowerCase();
     return unfilteredContacts.filter(item =>
-      item.name.toLowerCase().includes(this.state.filter.toLowerCase())
+      item.name.toLowerCase().includes(normalizedFilter)
     );
   };
 
