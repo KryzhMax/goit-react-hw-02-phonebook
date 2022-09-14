@@ -24,22 +24,20 @@ export class Filter extends Component {
           <input type="text" onChange={this.onFinder} />
         </form>
         <ul className={s.list}>
-          {this.props.contacts.map(item => {
+          {this.props.contacts.map(({ id, name, number }) => {
             return (
-              <>
-                <li key={item.id} className={s.listItem}>
-                  {item.name}: {item.number}
-                  <button
-                    className={s.delBtn}
-                    type="button"
-                    onClick={() => {
-                      this.deleteName(item.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </li>
-              </>
+              <li key={id} className={s.listItem}>
+                {name}: {number}
+                <button
+                  className={s.delBtn}
+                  type="button"
+                  onClick={() => {
+                    this.deleteName(id);
+                  }}
+                >
+                  Delete
+                </button>
+              </li>
             );
           })}
         </ul>
