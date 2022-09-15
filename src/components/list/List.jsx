@@ -16,7 +16,7 @@ export class Filter extends Component {
   };
 
   render() {
-    console.log(this.props.contacts);
+    // console.log(this.props.contacts);
     return (
       <>
         <h3>Find contact by name</h3>
